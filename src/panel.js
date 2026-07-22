@@ -68,14 +68,12 @@ export function renderPanelHTML() {
         </div>
       </a>
 
-      <!-- راست‌چین نوار ابزار جدید شامل متدهای لایو لود و تم مپینگ -->
+      <!-- Navbar Right Actions -->
       <div class="d-flex align-items-center gap-3 flex-wrap">
-        <!-- ۱. انتقال هوشمند زمان آپدیت و دکمه رفرش سراسری به نوار بالایی پنل (Navbar) -->
         <span id="last-updated-time" class="text-muted small hide">Last updated: --:--:--</span>
         <button id="btn-refresh-dashboard" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1 hide">
           <svg id="refresh-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
-            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/><path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
           </svg>
           <span>Refresh Data</span>
         </button>
@@ -83,13 +81,11 @@ export function renderPanelHTML() {
         <div id="auth-status" class="text-end"></div>
         
         <div class="dropdown">
-          <button id="themeBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Theme
-          </button>
+          <button id="themeBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">Theme</button>
           <ul class="dropdown-menu dropdown-menu-end shadow">
             <li><a class="dropdown-item d-flex align-items-center gap-2 theme-option" href="#" data-theme="auto"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-circle-half" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 0 8 1zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16"/></svg> Auto (System)</a></li>
             <li><a class="dropdown-item d-flex align-items-center gap-2 theme-option" href="#" data-theme="dark"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-moon-stars-fill" viewBox="0 0 16 16"><path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278"/><path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.73 1.73 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.73 1.73 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.73 1.73 0 0 0 1.097-1.097zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/></svg> Dark Mode</a></li>
-            <li><a class="dropdown-item d-flex align-items-center gap-2 theme-option" href="#" data-theme="light"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-brightness-high-fill" viewBox="0 0 16 16"><path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/></svg> Light Mode</a></li>
+            <li><a class="dropdown-item d-flex align-items-center gap-2 theme-option" href="#" data-theme="light"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-brightness-high-fill" viewBox="0 0 16 16"><path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/></svg> Light Mode</a></li>
           </ul>
         </div>
       </div>
@@ -117,7 +113,6 @@ export function renderPanelHTML() {
 
     <!-- Master Admin Panel Root -->
     <div id="panel-root" class="hide">
-      <!-- مرتب سازی تب‌ها از چپ به راست با اولویت Overview -->
       <ul class="nav nav-tabs" id="mainTabs" role="tablist">
         <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview">Overview</button></li>
         <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#routers">Endpoints (Routers)</button></li>
@@ -128,82 +123,38 @@ export function renderPanelHTML() {
       </ul>
 
       <div class="tab-content mt-3">
-        
         <!-- Tab 0: Overview -->
         <div class="tab-pane fade show active" id="overview" role="tabpanel">
-          <!-- هدر تمیز داشبورد بدون آیکون رفرش قدیمی -->
           <div class="mb-4">
             <h2 class="h5 mb-0 fw-bold">Executive Dashboard</h2>
             <div class="form-text text-muted">A live summary of your active custom endpoints and routing upstream DNS layers.</div>
           </div>
-
-          <!-- بخش ۱: کارت‌های خلاصه آمار -->
           <div class="row g-3 mb-4">
-            <div class="col-md-3 col-sm-6">
-              <div class="card p-3 bg-body-tertiary border-0 shadow-sm text-center text-sm-start">
-                <div class="text-muted small fw-medium">Active Endpoints</div>
-                <div class="h3 mb-0 fw-bold text-success mt-1" id="stat-routers">0</div>
-              </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-              <div class="card p-3 bg-body-tertiary border-0 shadow-sm text-center text-sm-start">
-                <div class="text-muted small fw-medium">DNS Templates</div>
-                <div class="h3 mb-0 fw-bold text-primary mt-1" id="stat-templates">0</div>
-              </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-              <div class="card p-3 bg-body-tertiary border-0 shadow-sm text-center text-sm-start">
-                <div class="text-muted small fw-medium">Upstream Providers</div>
-                <div class="h3 mb-0 fw-bold text-info mt-1" id="stat-providers">0</div>
-              </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-              <div class="card p-3 bg-body-tertiary border-0 shadow-sm text-center text-sm-start">
-                <div class="text-muted small fw-medium">Global Cache TTL</div>
-                <div class="h3 mb-0 fw-bold text-warning mt-1" id="stat-ttl">60s</div>
-              </div>
-            </div>
+            <div class="col-md-3 col-sm-6"><div class="card p-3 bg-body-tertiary border-0 shadow-sm text-center text-sm-start"><div class="text-muted small fw-medium">Active Endpoints</div><div class="h3 mb-0 fw-bold text-success mt-1" id="stat-routers">0</div></div></div>
+            <div class="col-md-3 col-sm-6"><div class="card p-3 bg-body-tertiary border-0 shadow-sm text-center text-sm-start"><div class="text-muted small fw-medium">DNS Templates</div><div class="h3 mb-0 fw-bold text-primary mt-1" id="stat-templates">0</div></div></div>
+            <div class="col-md-3 col-sm-6"><div class="card p-3 bg-body-tertiary border-0 shadow-sm text-center text-sm-start"><div class="text-muted small fw-medium">Upstream Providers</div><div class="h3 mb-0 fw-bold text-info mt-1" id="stat-providers">0</div></div></div>
+            <div class="col-md-3 col-sm-6"><div class="card p-3 bg-body-tertiary border-0 shadow-sm text-center text-sm-start"><div class="text-muted small fw-medium">Global Cache TTL</div><div class="h3 mb-0 fw-bold text-warning mt-1" id="stat-ttl">60s</div></div></div>
           </div>
-
           <div class="row g-3">
-            <!-- بخش ۲: جدول دسترسی سریع -->
             <div class="col-md-8">
               <div class="card p-3 h-100">
                 <h3 class="h6 border-bottom pb-2 fw-bold text-body">Quick Endpoints List</h3>
                 <div class="table-responsive">
                   <table class="table table-sm table-hover mb-0 align-middle" id="quick-router-table" style="font-size: 0.95rem;">
-                    <thead>
-                      <tr><th>Path</th><th>Full DoH URL</th><th>ECS</th><th style="width: 80px;">Action</th></tr>
-                    </thead>
-                    <tbody>
-                      <tr><td colspan="4" class="text-muted py-3">Loading active endpoints...</td></tr>
-                    </tbody>
+                    <thead><tr><th>Path</th><th>Full DoH URL</th><th>ECS</th><th style="width: 80px;">Action</th></tr></thead>
+                    <tbody><tr><td colspan="4" class="text-muted py-3">Loading active endpoints...</td></tr></tbody>
                   </table>
                 </div>
               </div>
             </div>
-            
-            <!-- بخش ۳: وضعیت سلامت زیرساخت -->
             <div class="col-md-4">
               <div class="card p-3 h-100">
                 <h3 class="h6 border-bottom pb-2 fw-bold text-body">System Status</h3>
                 <ul class="list-group list-group-flush small mt-2">
-                  <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
-                    <span class="text-muted">Proxy Status</span>
-                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill">Online</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
-                    <span class="text-muted">Cloudflare KV Database</span>
-                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill">Connected</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
-                    <span class="text-muted">Isolate Cache (Memory)</span>
-                    <span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1 rounded-pill">Active (5m TTL)</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent border-bottom-0 pb-0">
-                    <span class="text-muted">Active Domain Rewrites</span>
-                    <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2 py-1 rounded-pill" id="stat-total-rules">0</span>
-                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent"><span class="text-muted">Proxy Status</span><span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill">Online</span></li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent"><span class="text-muted">Cloudflare KV Database</span><span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill">Connected</span></li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent"><span class="text-muted">Isolate Cache (Memory)</span><span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1 rounded-pill">Active (5m TTL)</span></li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent border-bottom-0 pb-0"><span class="text-muted">Active Domain Rewrites</span><span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2 py-1 rounded-pill" id="stat-total-rules">0</span></li>
                 </ul>
               </div>
             </div>
@@ -238,12 +189,7 @@ export function renderPanelHTML() {
             </div>
             <div id="router-msg" class="mt-2"></div>
           </div>
-          <div class="card p-3">
-            <h3 class="h6">Active Custom Endpoints</h3>
-            <div class="table-responsive">
-              <table id="router-table" class="table table-sm"><thead><tr><th>Path</th><th>Upstream (Priority)</th><th>Rewrite Templates</th><th>Actions</th></tr></thead><tbody></tbody></table>
-            </div>
-          </div>
+          <div class="card p-3"><h3 class="h6">Active Custom Endpoints</h3><div class="table-responsive"><table id="router-table" class="table table-sm"><thead><tr><th>Path</th><th>Upstream (Priority)</th><th>Rewrite Templates</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
         </div>
 
         <!-- Tab 2: Templates -->
@@ -320,13 +266,11 @@ export function renderPanelHTML() {
             <div id="lookup-result-container" class="mt-4 hide">
               <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2 flex-wrap gap-2">
                 <h4 class="h6 mb-0">Results</h4>
-                
                 <div class="d-flex align-items-center gap-3">
                   <div class="btn-group btn-group-sm" role="group">
                     <button type="button" class="btn btn-outline-secondary active" id="view-table-btn">Table</button>
                     <button type="button" class="btn btn-outline-secondary" id="view-json-btn">Raw JSON</button>
                   </div>
-                  
                   <div class="text-muted small border-start ps-3 d-flex gap-3">
                     <span id="lookup-status"></span>
                     <span>Latency: <span id="lookup-latency" class="badge bg-secondary rounded-pill px-2"></span></span>
@@ -369,7 +313,7 @@ export function renderPanelHTML() {
       </div>
 
       <footer class="mt-5 border-top pt-3 d-flex justify-content-between align-items-center">
-        <span class="text-muted small">DoH Proxy Admin Engine v3.9 (jQuery &amp; Sync)</span>
+        <span class="text-muted small">DoH Proxy Admin Engine v4.3 (Parallel Sync)</span>
         <button id="btn-logout" class="btn btn-sm btn-outline-danger">Log out</button>
       </footer>
     </div>
@@ -380,65 +324,76 @@ export function renderPanelHTML() {
   <script>
   $(function() {
     
-    // Theme logic
     function applyTheme(mode) {
       const isAutoDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
       $('html').attr('data-bs-theme', (!mode || mode === 'auto') ? (isAutoDark ? 'dark' : 'light') : mode);
       $('#themeBtn').text((!mode || mode === 'auto') ? '🌓 Auto' : (mode === 'dark' ? '🌙 Dark' : '☀️ Light'));
     }
     applyTheme(localStorage.getItem('doh_theme') || 'auto');
-    
     $('.theme-option').on('click', function(e) {
-      e.preventDefault();
-      const t = $(this).data('theme');
-      localStorage.setItem('doh_theme', t);
-      applyTheme(t);
+      e.preventDefault(); const t = $(this).data('theme'); localStorage.setItem('doh_theme', t); applyTheme(t);
     });
 
     const API_BASE = window.location.origin + '/' + (window.location.pathname.split('/').filter(Boolean)[0] || '') + '/api';
 
-    // Global variables
+    // State Variables
     let provEditingId = null, templateEditingId = null, routerEditingId = null;
+    let provEditingUpdatedAt = null, templateEditingUpdatedAt = null, routerEditingUpdatedAt = null, globalSettingsUpdatedAt = null;
     let lastLookupResponse = null;
     let allProviders = [], allTemplates = [], allRouters = [], globalSettings = { cache_ttl: 60 };
 
-    // Helpers
-    function showMessage($el, msg, type = 'info') {
-      const t = type === 'info' ? 'secondary' : type;
-      $el.empty().append($('<div>').addClass('alert alert-' + t + ' small mb-0').text(msg));
-    }
+    function showMessage($el, msg, type = 'info') { const t = type === 'info' ? 'secondary' : type; $el.empty().append($('<div>').addClass('alert alert-' + t + ' small mb-0').text(msg)); }
     function clearMessage($el) { $el.empty(); }
 
     async function apiFetch(path, opts = {}) {
       try {
-        const res = await $.ajax({
-          url: API_BASE + path,
-          method: opts.method || 'GET',
-          contentType: 'application/json',
-          data: opts.body ? JSON.stringify(opts.body) : undefined,
-          xhrFields: { withCredentials: true }
-        });
-        return { ok: true, json: res };
+        const res = await $.ajax({ url: API_BASE + path, method: opts.method || 'GET', contentType: 'application/json', data: opts.body ? JSON.stringify(opts.body) : undefined, xhrFields: { withCredentials: true } });
+        return { ok: true, status: 200, json: res };
       } catch (err) {
-        return { ok: false, json: err.responseJSON || { error: err.statusText } };
+        return { ok: false, status: err.status, json: err.responseJSON || { error: err.statusText } };
       }
+    }
+
+    function handleConflict(r, $msgContainer) {
+       if (r.status === 409) {
+           const msg = 'Data was modified or deleted in another session. The panel will now refresh with the latest data.';
+           if ($msgContainer) showMessage($msgContainer, msg, 'warning');
+           else alert(msg);
+           loadAllData();
+           return true;
+       }
+       return false;
+    }
+
+    function resetProvForm(clearMsg = true) { 
+      provEditingId = null; provEditingUpdatedAt = null; 
+      $('#prov-name, #prov-url').val(''); $('#prov-add').text('Add'); $('#prov-cancel').addClass('hide'); 
+      $('#prov-form-title').text('Add Provider'); if (clearMsg) clearMessage($('#prov-msg')); 
+    }
+
+    function resetTemplateForm(clearMsg = true) { 
+      templateEditingId = null; templateEditingUpdatedAt = null; 
+      $('#template-name').val(''); $('#rules-container').empty().append(newRuleRow()); 
+      $('#template-create').text('Create Template'); $('#template-cancel').addClass('hide'); 
+      $('#temp-form-title').text('Create Template'); if (clearMsg) clearMessage($('#template-msg')); 
+    }
+
+    function resetRouterForm(clearMsg = true) { 
+      routerEditingId = null; routerEditingUpdatedAt = null; 
+      $('#router-path').val(''); $('#router-ecs').prop('checked', false); 
+      $('#router-upstreams, #router-templates').val([]); $('#router-create').text('Create Endpoint'); 
+      $('#router-cancel').addClass('hide'); $('#router-form-title').text('Create Endpoint'); if (clearMsg) clearMessage($('#router-msg')); 
     }
 
     async function checkSession() {
       const r = await apiFetch('/session');
       if (r.ok && r.json && r.json.authenticated) {
-        $('#login-area, #force-change-area').addClass('hide');
-        $('#panel-root').removeClass('hide');
-        
-        // ۱. نمایش دکمه رفرش سراسری و زمان لود در نوار بالایی هدر پس از ورود موفق
+        $('#login-area, #force-change-area').addClass('hide'); $('#panel-root').removeClass('hide');
         $('#btn-refresh-dashboard, #last-updated-time').removeClass('hide');
         $('#auth-status').html('<span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">Signed in</span>');
         loadAllData();
       } else {
-        $('#login-area').removeClass('hide');
-        $('#panel-root').addClass('hide');
-        
-        // پنهان کردن دکمه رفرش در صورت عدم ورود
+        $('#login-area').removeClass('hide'); $('#panel-root').addClass('hide');
         $('#btn-refresh-dashboard, #last-updated-time').addClass('hide');
         $('#auth-status').html('<span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2 py-1">Not signed in</span>');
       }
@@ -447,19 +402,10 @@ export function renderPanelHTML() {
     // Auth Flows
     $('#btn-login').on('click', async () => {
       clearMessage($('#login-msg'));
-      const pw = $('#pw').val() || '';
-      if (!pw) return showMessage($('#login-msg'), 'Enter password', 'warning');
+      const pw = $('#pw').val() || ''; if (!pw) return showMessage($('#login-msg'), 'Enter password', 'warning');
       const r = await apiFetch('/login', { method: 'POST', body: { password: pw } });
-      if (r.ok && r.json && r.json.ok) {
-        if (r.json.must_change) {
-          $('#login-area').addClass('hide');
-          $('#force-change-area').removeClass('hide');
-        } else {
-          await checkSession();
-        }
-      } else {
-        showMessage($('#login-msg'), r.json?.error || 'Login failed', 'danger');
-      }
+      if (r.ok && r.json && r.json.ok) { if (r.json.must_change) { $('#login-area').addClass('hide'); $('#force-change-area').removeClass('hide'); } else await checkSession(); } 
+      else showMessage($('#login-msg'), r.json?.error || 'Login failed', 'danger');
     });
 
     $('#btn-change-creds').on('click', async () => {
@@ -469,56 +415,32 @@ export function renderPanelHTML() {
       const r = await apiFetch('/change-credentials', { method: 'POST', body: { new_password: newPw, new_secret_path: newSec } });
       if (r.ok && r.json && r.json.ok) {
         showMessage($('#change-msg'), 'Credentials updated. Redirecting...', 'success');
-        setTimeout(() => window.location.href = (r.json.secret_path && r.json.secret_path !== window.location.pathname.split('/')[1]) 
-            ? window.location.origin + '/' + r.json.secret_path + '/panel/' 
-            : window.location.href, 1000);
-      } else {
-        showMessage($('#change-msg'), r.json?.error || 'Failed to update', 'danger');
-      }
+        setTimeout(() => window.location.href = (r.json.secret_path && r.json.secret_path !== window.location.pathname.split('/')[1]) ? window.location.origin + '/' + r.json.secret_path + '/panel/' : window.location.href, 1000);
+      } else showMessage($('#change-msg'), r.json?.error || 'Failed to update', 'danger');
     });
 
-    document.getElementById('btn-logout').addEventListener('click', async () => { await apiFetch('/logout', { method: 'POST' }); location.reload(); });
+    $('#btn-logout').on('click', async () => { await apiFetch('/logout', { method: 'POST' }); location.reload(); });
 
     // Live DNS Lookup
-    $('#lookup-provider').on('change', function() {
-       if ($(this).val() === 'custom') $('#lookup-custom-url-container').removeClass('hide');
-       else $('#lookup-custom-url-container').addClass('hide');
-    });
-
-    $('#view-table-btn').on('click', function() {
-       $(this).addClass('active'); $('#view-json-btn').removeClass('active');
-       $('#lookup-table-view').removeClass('hide'); $('#lookup-json-view').addClass('hide');
-    });
-
-    $('#view-json-btn').on('click', function() {
-       $(this).addClass('active'); $('#view-table-btn').removeClass('active');
-       $('#lookup-json-view').removeClass('hide'); $('#lookup-table-view').addClass('hide');
-       if (lastLookupResponse) $('#lookup-json-code').text(JSON.stringify(lastLookupResponse, null, 4));
-    });
+    $('#lookup-provider').on('change', function() { if ($(this).val() === 'custom') $('#lookup-custom-url-container').removeClass('hide'); else $('#lookup-custom-url-container').addClass('hide'); });
+    $('#view-table-btn').on('click', function() { $(this).addClass('active'); $('#view-json-btn').removeClass('active'); $('#lookup-table-view').removeClass('hide'); $('#lookup-json-view').addClass('hide'); });
+    $('#view-json-btn').on('click', function() { $(this).addClass('active'); $('#view-table-btn').removeClass('active'); $('#lookup-json-view').removeClass('hide'); $('#lookup-table-view').addClass('hide'); if (lastLookupResponse) $('#lookup-json-code').text(JSON.stringify(lastLookupResponse, null, 4)); });
 
     $('#lookup-btn').on('click', async function() {
-        clearMessage($('#lookup-msg'));
-        $('#lookup-result-container').addClass('hide');
-        
+        clearMessage($('#lookup-msg')); $('#lookup-result-container').addClass('hide');
         const domain = $('#lookup-domain').val().trim(), type = $('#lookup-type').val(), provider_id = $('#lookup-provider').val();
         const custom_url = $('#lookup-custom-url').val().trim(), ecs_enabled = $('#lookup-ecs-switch').is(':checked');
-
         if (!domain) return showMessage($('#lookup-msg'), 'Domain is required.', 'warning');
         if (provider_id === 'custom' && !custom_url) return showMessage($('#lookup-msg'), 'Custom DoH URL is required.', 'warning');
 
-        const $btn = $(this);
-        $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Resolving...');
-
+        const $btn = $(this); $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Resolving...');
         const r = await apiFetch('/dns-lookup', { method: 'POST', body: { domain, type, provider_id, custom_url, ecs_enabled } });
         $btn.prop('disabled', false).text('Resolve');
 
         if (r.ok && r.json && r.json.ok) {
-            const resp = r.json.response, lat = r.json.latency_ms;
-            lastLookupResponse = resp;
-            
-            const statusMap = {0:'NOERROR', 1:'FORMERR', 2:'SERVFAIL', 3:'NXDOMAIN', 4:'NOTIMP', 5:'REFUSED'};
-            const stText = statusMap[resp.Status] || ('UNKNOWN ('+resp.Status+')');
-            
+            const resp = r.json.response, lat = r.json.latency_ms; lastLookupResponse = resp;
+            const stMap = {0:'NOERROR', 1:'FORMERR', 2:'SERVFAIL', 3:'NXDOMAIN', 4:'NOTIMP', 5:'REFUSED'};
+            const stText = stMap[resp.Status] || ('UNKNOWN ('+resp.Status+')');
             const svgOk = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-check-circle-fill me-1 mb-1" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg>';
             const svgErr = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-x-circle-fill me-1 mb-1" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.847 2.846a.5.5 0 0 0 .708.708L8 8.707l2.846 2.847a.5.5 0 0 0 .708-.708L8.707 8l2.847-2.846a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/></svg>';
             
@@ -526,95 +448,59 @@ export function renderPanelHTML() {
             $('#lookup-latency').text(lat + ' ms');
             
             const $tbody = $('#lookup-result-table tbody').empty();
-            const typeMapRev = {1:'A', 28:'AAAA', 5:'CNAME', 16:'TXT', 15:'MX'};
-            const badgeCls = {'A':'bg-primary', 'AAAA':'bg-success', 'CNAME':'bg-warning text-dark', 'TXT':'bg-info text-dark', 'MX':'bg-secondary'};
+            const typeMapRev = {1:'A', 28:'AAAA', 5:'CNAME', 16:'TXT', 15:'MX'}, badgeCls = {'A':'bg-primary', 'AAAA':'bg-success', 'CNAME':'bg-warning text-dark', 'TXT':'bg-info text-dark', 'MX':'bg-secondary'};
 
             if (resp.Answer && resp.Answer.length > 0) {
                 resp.Answer.forEach(ans => {
-                    const tName = typeMapRev[ans.type] || ans.type;
-                    const bStyle = badgeCls[tName] || 'bg-dark';
-                    const $tr = $('<tr>');
-                    $tr.append($('<td>').text(ans.name));
-                    $tr.append($('<td>').append($('<span>').addClass('badge ' + bStyle).text(tName)));
-                    $tr.append($('<td>').text(ans.TTL));
-                    $tr.append($('<td>').addClass('text-break').css('max-width', '300px').append($('<code>').text(ans.data)));
-                    $tbody.append($tr);
+                    const tName = typeMapRev[ans.type] || ans.type, bStyle = badgeCls[tName] || 'bg-dark';
+                    $tbody.append($('<tr>').append($('<td>').text(ans.name)).append($('<td>').append($('<span>').addClass('badge ' + bStyle).text(tName))).append($('<td>').text(ans.TTL)).append($('<td>').addClass('text-break').css('max-width', '300px').append($('<code>').text(ans.data))));
                 });
-            } else {
-                $tbody.append($('<tr>').append($('<td>').attr('colspan', 4).addClass('text-center text-muted py-3').text('No records found.')));
-            }
+            } else $tbody.append($('<tr>').append($('<td>').attr('colspan', 4).addClass('text-center text-muted py-3').text('No records found.')));
+            
             if ($('#view-json-btn').hasClass('active')) $('#lookup-json-code').text(JSON.stringify(lastLookupResponse, null, 4));
             $('#lookup-result-container').removeClass('hide');
-
-            setTimeout(function() {
-                var $target = $('#lookup-result-container');
-                if ($target.length) {
-                    $('html, body').animate({
-                        scrollTop: $target.offset().top - 20
-                    }, 400); 
-                }
-            }, 80);
-
-        } else {
-            showMessage($('#lookup-msg'), r.json?.error || 'Lookup failed.', 'danger');
-        }
+            setTimeout(function() { var $t = $('#lookup-result-container'); if ($t.length) $('html, body').animate({ scrollTop: $t.offset().top - 20 }, 400); }, 80);
+        } else showMessage($('#lookup-msg'), r.json?.error || 'Lookup failed.', 'danger');
     });
 
     // Global Settings
-    async function loadSettings() {
-      const r = await apiFetch('/settings');
-      if (r.ok && r.json?.settings) {
-        globalSettings = r.json.settings;
-        $('#cache-ttl-input').val(globalSettings.cache_ttl || 60);
-      }
-    }
     $('#settings-save-btn').on('click', async () => {
-      clearMessage($('#settings-msg'));
-      const ttlVal = parseInt($('#cache-ttl-input').val(), 10);
+      clearMessage($('#settings-msg')); const ttlVal = parseInt($('#cache-ttl-input').val(), 10);
       if (isNaN(ttlVal) || ttlVal < 1) return showMessage($('#settings-msg'), 'Please enter a valid TTL.', 'danger');
-      const r = await apiFetch('/settings', { method: 'PUT', body: { cache_ttl: ttlVal } });
+      const r = await apiFetch('/settings', { method: 'PUT', body: { cache_ttl: ttlVal, updated_at: globalSettingsUpdatedAt } });
+      if (handleConflict(r, $('#settings-msg'))) return;
       if (r.ok) {
          showMessage($('#settings-msg'), 'Settings saved successfully.', 'success');
-         loadAllData();
+         await loadAllData(); // به‌روزرسانی همزمان کل داده‌های پنل و رندر جدید داشبورد
       } else showMessage($('#settings-msg'), r.json?.error || 'Failed to save.', 'danger');
     });
 
     // Providers
-    async function loadProviders() {
-      const $tb = $('#prov-table tbody').empty().append('<tr><td colspan="3" class="text-muted">Loading...</td></tr>');
-      const r = await apiFetch('/providers');
-      if (!r.ok) return $tb.empty().append('<tr><td colspan="3" class="text-danger">Failed to load</td></tr>');
-      const providers = r.json.providers || [];
-      allProviders = providers;
-      
-      $tb.empty();
-      providers.forEach(p => {
-        const $tr = $('<tr>')
-          .append($('<td>').text(p.display_name))
-          .append($('<td>').text(p.url))
-          .append($('<td>')
+    function renderProvidersTable() {
+      const $tb = $('#prov-table tbody').empty();
+      if (!allProviders.length) return $tb.append('<tr><td colspan="3" class="text-muted">No providers configured</td></tr>');
+      allProviders.forEach(p => {
+        $tb.append($('<tr>').append($('<td>').text(p.display_name)).append($('<td>').text(p.url)).append($('<td>')
              .append($('<button>').addClass('btn btn-sm btn-primary prov-edit me-1').attr('data-id', encodeURIComponent(p.id)).text('Edit'))
-             .append($('<button>').addClass('btn btn-sm btn-danger prov-delete').attr('data-id', encodeURIComponent(p.id)).text('Del'))
-          );
-        $tb.append($tr);
+             .append($('<button>').addClass('btn btn-sm btn-danger prov-delete').attr('data-id', encodeURIComponent(p.id)).text('Del'))));
       });
     }
 
     $(document).on('click', '.prov-delete', async function() {
       const id = decodeURIComponent($(this).data('id'));
+      const p = allProviders.find(x => x.id === id);
       if (!confirm('Delete provider?')) return;
-      const r = await apiFetch('/providers/' + encodeURIComponent(id), { method: 'DELETE' });
+      const r = await apiFetch('/providers/' + encodeURIComponent(id), { method: 'DELETE', body: { updated_at: p?.updated_at } });
+      if (handleConflict(r)) return;
       if (r.ok) loadAllData(); else showMessage($('#prov-msg'), r.json?.error || 'Delete failed', 'danger');
     });
 
-    $(document).on('click', '.prov-edit', async function() {
+    $(document).on('click', '.prov-edit', function() {
       const id = decodeURIComponent($(this).data('id'));
-      const r = await apiFetch('/providers');
-      const p = (r.ok ? r.json.providers || [] : []).find(x => x.id === id);
-      if (!p) return showMessage($('#prov-msg'), 'Provider not found', 'danger');
-      provEditingId = id; $('#prov-name').val(p.display_name); $('#prov-url').val(p.url);
-      $('#prov-add').text('Update'); $('#prov-cancel').removeClass('hide');
-      $('#prov-form-title').text('Edit Provider');
+      const p = allProviders.find(x => x.id === id);
+      if (!p) { handleConflict({status: 409}, $('#prov-msg')); return; }
+      provEditingId = id; provEditingUpdatedAt = p.updated_at; $('#prov-name').val(p.display_name); $('#prov-url').val(p.url);
+      $('#prov-add').text('Update'); $('#prov-cancel').removeClass('hide'); $('#prov-form-title').text('Edit Provider');
     });
 
     $('#prov-add').on('click', async () => {
@@ -622,28 +508,25 @@ export function renderPanelHTML() {
       const name = $('#prov-name').val().trim(), url = $('#prov-url').val().trim();
       if (!name || !url) return showMessage($('#prov-msg'), 'Name and URL required', 'warning');
       
-      let payload = { display_name: name, url: url };
+      let payload = { display_name: name, url: url, updated_at: provEditingUpdatedAt };
       let path = provEditingId ? '/providers/' + encodeURIComponent(provEditingId) : '/providers';
       let method = provEditingId ? 'PUT' : 'POST';
       
       let r = await apiFetch(path, { method, body: payload });
+      if (handleConflict(r, $('#prov-msg'))) return;
+
       if (r.ok && r.json?.error === 'live_test_failed') {
           if (confirm("The DoH server didn't respond correctly. Do you still want to add it?")) {
               payload.force = true;
               r = await apiFetch(path, { method, body: payload });
+              if (handleConflict(r, $('#prov-msg'))) return;
           } else return;
       }
-      if (r.ok && r.json?.ok) {
-        showMessage($('#prov-msg'), provEditingId ? 'Updated' : 'Added', 'success');
-        resetProvForm(); loadAllData();
-      } else showMessage($('#prov-msg'), r.json?.error || 'Failed to save', 'danger');
+      if (r.ok && r.json?.ok) { showMessage($('#prov-msg'), provEditingId ? 'Updated' : 'Added', 'success'); loadAllData(); } 
+      else showMessage($('#prov-msg'), r.json?.error || 'Failed to save', 'danger');
     });
 
-    $('#prov-cancel').on('click', resetProvForm);
-    function resetProvForm() {
-      provEditingId = null; $('#prov-name, #prov-url').val(''); $('#prov-add').text('Add');
-      $('#prov-cancel').addClass('hide'); $('#prov-form-title').text('Add Provider'); clearMessage($('#prov-msg'));
-    }
+    $('#prov-cancel').on('click', () => resetProvForm(true));
 
     // Templates
     function newRuleRow(rule = { type: 'A', domain: '', targets: '', target: '', resolve_cname: false }) {
@@ -651,7 +534,6 @@ export function renderPanelHTML() {
       const $tSel = $('<select>').addClass('form-select rule-type').css('max-width', '140px').append('<option value="A">A</option><option value="AAAA">AAAA</option><option value="CNAME">CNAME</option>');
       const $domInp = $('<input>').addClass('form-control rule-domain').attr('placeholder', 'e.g. google.com or *.google.com');
       const $tarInp = $('<input>').addClass('form-control rule-targets');
-      
       const ckId = 'ck_' + Date.now() + Math.floor(Math.random()*1000);
       const $fw = $('<div>').addClass('form-check form-switch ms-2 flatten-wrapper d-none').attr('title', 'Resolve Target back-end seamlessly...')
                   .append($('<input>').addClass('form-check-input rule-resolve-cname').attr({type:'checkbox', id:ckId}))
@@ -666,21 +548,16 @@ export function renderPanelHTML() {
          else { $fw.addClass('d-none'); $tarInp.attr('placeholder', 'Comma Separated IPs...'); }
       }).trigger('change');
       
-      $rm.on('click', () => $div.remove());
-      return $div.append($tSel, $domInp, $tarInp, $fw, $rm);
+      $rm.on('click', () => $div.remove()); return $div.append($tSel, $domInp, $tarInp, $fw, $rm);
     }
 
     $('#add-rule-btn').on('click', () => $('#rules-container').append(newRuleRow()));
 
-    async function loadTemplatesTable() {
-      const $tb = $('#template-table tbody').empty().append('<tr><td colspan="3" class="text-muted">Loading...</td></tr>');
-      const r = await apiFetch('/templates');
-      if (!r.ok) return $tb.empty().append('<tr><td colspan="3" class="text-danger">Failed to load</td></tr>');
-      const templates = r.json.templates || [];
-      allTemplates = templates;
+    function renderTemplatesTable() {
+      const $tb = $('#template-table tbody').empty();
+      if (!allTemplates.length) return $tb.append('<tr><td colspan="3" class="text-muted">No templates configured</td></tr>');
       
-      $tb.empty();
-      templates.forEach(t => {
+      allTemplates.forEach(t => {
         const $tr = $('<tr>').append($('<td>').text(t.name));
         const $rulesTd = $('<td>');
         (t.rules || []).forEach((ri, idx) => {
@@ -688,9 +565,7 @@ export function renderPanelHTML() {
           if (ri.type === 'CNAME') {
              $rulesTd.append($('<code>').text(ri.domain)).append(' \u2192 CNAME ').append($('<code>').text(ri.target));
              if (ri.resolve_cname) $rulesTd.append(' ').append($('<span>').addClass('badge bg-secondary').text('Flattened'));
-          } else {
-             $rulesTd.append($('<code>').text(ri.domain)).append(\` \u2192 \${ri.type} [\${(ri.targets || []).join(', ')}]\`);
-          }
+          } else { $rulesTd.append($('<code>').text(ri.domain)).append(' \u2192 ' + ri.type + ' [' + (ri.targets || []).join(', ') + ']'); }
         });
         $tr.append($rulesTd).append($('<td>')
              .append($('<button>').addClass('btn btn-sm btn-primary temp-edit me-1').attr('data-id', encodeURIComponent(t.id)).text('Edit'))
@@ -701,27 +576,26 @@ export function renderPanelHTML() {
 
     $(document).on('click', '.temp-delete', async function() {
         if (!confirm('Delete template?')) return;
-        const r = await apiFetch('/templates/' + $(this).data('id'), { method: 'DELETE' });
+        const id = decodeURIComponent($(this).data('id'));
+        const t = allTemplates.find(x => x.id === id);
+        const r = await apiFetch('/templates/' + encodeURIComponent(id), { method: 'DELETE', body: { updated_at: t?.updated_at } });
+        if (handleConflict(r)) return;
         if (r.ok) loadAllData(); else showMessage($('#template-msg'), r.json?.error || 'Delete failed', 'danger');
     });
 
-    $(document).on('click', '.temp-edit', async function() {
+    $(document).on('click', '.temp-edit', function() {
         const id = decodeURIComponent($(this).data('id'));
-        const r = await apiFetch('/templates');
-        const t = (r.ok ? r.json.templates || [] : []).find(x => x.id === id);
-        if (!t) return showMessage($('#template-msg'), 'Not found', 'danger');
-        templateEditingId = id; $('#template-name').val(t.name); $('#rules-container').empty();
+        const t = allTemplates.find(x => x.id === id);
+        if (!t) { handleConflict({status: 409}, $('#template-msg')); return; }
+        templateEditingId = id; templateEditingUpdatedAt = t.updated_at; $('#template-name').val(t.name); $('#rules-container').empty();
         (t.rules || []).forEach(rule => $('#rules-container').append(newRuleRow(rule.type === 'CNAME' ? { type: 'CNAME', domain: rule.domain, target: rule.target, resolve_cname: rule.resolve_cname } : { type: rule.type, domain: rule.domain, targets: (rule.targets || []).join(',') })));
         $('#template-create').text('Update'); $('#template-cancel').removeClass('hide'); $('#temp-form-title').text('Edit Template');
     });
 
     $('#template-create').on('click', async () => {
       clearMessage($('#template-msg'));
-      const name = $('#template-name').val().trim();
-      if (!name) return showMessage($('#template-msg'), 'Template name required', 'warning');
-      
-      const rules = [];
-      let hasErr = false;
+      const name = $('#template-name').val().trim(); if (!name) return showMessage($('#template-msg'), 'Template name required', 'warning');
+      const rules = []; let hasErr = false;
       $('#rules-container .rule-row').each(function() {
         const type = $(this).find('.rule-type').val(), domain = $(this).find('.rule-domain').val().trim(), tRaw = $(this).find('.rule-targets').val().trim();
         if(!domain) { showMessage($('#template-msg'), 'Blank Domain', 'danger'); hasErr = true; return false; }
@@ -729,16 +603,14 @@ export function renderPanelHTML() {
       });
       if (hasErr || !rules.length) return !hasErr && showMessage($('#template-msg'), 'At least one rule is required', 'warning');
 
-      const r = await apiFetch(templateEditingId ? '/templates/' + encodeURIComponent(templateEditingId) : '/templates', { method: templateEditingId ? 'PUT' : 'POST', body: { name, rules } });
-      if (r.ok && r.json?.ok) { showMessage($('#template-msg'), 'Template saved successfully', 'success'); resetTemplateForm(); loadAllData(); } 
+      const payload = { name, rules, updated_at: templateEditingUpdatedAt };
+      const r = await apiFetch(templateEditingId ? '/templates/' + encodeURIComponent(templateEditingId) : '/templates', { method: templateEditingId ? 'PUT' : 'POST', body: payload });
+      if (handleConflict(r, $('#template-msg'))) return;
+      if (r.ok && r.json?.ok) { showMessage($('#template-msg'), 'Template saved successfully', 'success'); loadAllData(); } 
       else showMessage($('#template-msg'), r.json?.error || 'Action failed', 'danger');
     });
 
-    $('#template-cancel').on('click', resetTemplateForm);
-    function resetTemplateForm() {
-      templateEditingId = null; $('#template-name').val(''); $('#rules-container').empty().append(newRuleRow());
-      $('#template-create').text('Create Template'); $('#template-cancel').addClass('hide'); $('#temp-form-title').text('Create Template'); clearMessage($('#template-msg'));
-    }
+    $('#template-cancel').on('click', () => resetTemplateForm(true));
 
     // Routers
     function checkRouterDuplicates(router, templates) {
@@ -750,22 +622,16 @@ export function renderPanelHTML() {
       } return hasDup;
     }
 
-    async function loadRoutersTable() {
-      const $tb = $('#router-table tbody').empty().append('<tr><td colspan="4" class="text-muted">Loading...</td></tr>');
-      const rr = await apiFetch('/routers'), pr = await apiFetch('/providers'), tr = await apiFetch('/templates');
-      if (!rr.ok) return $tb.empty().append('<tr><td colspan="4" class="text-danger">Failed to load routers</td></tr>');
+    function renderRoutersTable() {
+      const $tb = $('#router-table tbody').empty();
+      if (!allRouters.length) return $tb.append('<tr><td colspan="4" class="text-muted">No endpoints configured</td></tr>');
       
-      const routers = rr.json.routers || [], providers = pr.ok ? pr.json.providers || [] : [], templates = tr.ok ? tr.json.templates || [] : [];
-      allRouters = routers;
-      if (!routers.length) return $tb.empty().append('<tr><td colspan="4" class="text-muted">No endpoints configured</td></tr>');
-      
-      $tb.empty();
-      routers.forEach(rt => {
-         const upnames = (rt.upstream_ids || []).map(id => { const p = providers.find(prov => prov.id === id); return p ? p.display_name : id; }).join(' \u2192 ');
+      allRouters.forEach(rt => {
+         const upnames = (rt.upstream_ids || []).map(id => { const p = allProviders.find(prov => prov.id === id); return p ? p.display_name : id; }).join(' \u2192 ');
          const $tr = $('<tr>');
          const $tdP = $('<td>').append($('<code>').text(rt.custom_path));
          if (rt.ecs_enabled) $tdP.append(' ').append($('<span>').addClass('badge bg-info-subtle text-info border border-info-subtle ms-1').text('ECS Enabled'));
-         if (checkRouterDuplicates(rt, templates)) $tdP.append(' ').append($('<span>').addClass('badge bg-warning text-dark border border-warning-subtle ms-1').attr({title:'Duplicate rule. First match takes effect.', style:'cursor:help;'}).text('⚠️ Duplicate'));
+         if (checkRouterDuplicates(rt, allTemplates)) $tdP.append(' ').append($('<span>').addClass('badge bg-warning text-dark border border-warning-subtle ms-1').attr({title:'Duplicate rule. First match takes effect.', style:'cursor:help;'}).text('⚠️ Duplicate'));
          
          $tr.append($tdP).append($('<td>').text(upnames)).append($('<td>').text((rt.template_ids || []).join(', ')))
             .append($('<td>').append($('<button>').addClass('btn btn-sm btn-primary r-edit me-1').attr('data-id', encodeURIComponent(rt.id)).text('Edit')).append($('<button>').addClass('btn btn-sm btn-danger r-delete').attr('data-id', encodeURIComponent(rt.id)).text('Del')));
@@ -775,13 +641,19 @@ export function renderPanelHTML() {
 
     $(document).on('click', '.r-delete', async function() {
       if (!confirm('Delete this endpoint?')) return;
-      await apiFetch('/routers/' + $(this).data('id'), { method: 'DELETE' }); loadAllData();
+      const id = decodeURIComponent($(this).data('id'));
+      const ro = allRouters.find(x => x.id === id);
+      const r = await apiFetch('/routers/' + encodeURIComponent(id), { method: 'DELETE', body: { updated_at: ro?.updated_at } });
+      if (handleConflict(r)) return;
+      if (r.ok) loadAllData(); else showMessage($('#router-msg'), r.json?.error || 'Delete failed', 'danger');
     });
 
-    $(document).on('click', '.r-edit', async function() {
+    $(document).on('click', '.r-edit', function() {
       const roId = decodeURIComponent($(this).data('id'));
-      const r = await apiFetch('/routers'); const ro = (r.ok ? r.json.routers || [] : []).find(x => x.id === roId); if (!ro) return;
-      routerEditingId = ro.id; $('#router-path').val(ro.custom_path); $('#router-ecs').prop('checked', !!ro.ecs_enabled);
+      const ro = allRouters.find(x => x.id === roId); 
+      if (!ro) { handleConflict({status: 409}, $('#router-msg')); return; }
+      
+      routerEditingId = ro.id; routerEditingUpdatedAt = ro.updated_at; $('#router-path').val(ro.custom_path); $('#router-ecs').prop('checked', !!ro.ecs_enabled);
       $('#router-upstreams option').each(function() { $(this).prop('selected', ro.upstream_ids && ro.upstream_ids.includes($(this).val())); });
       $('#router-templates option').each(function() { $(this).prop('selected', ro.template_ids && ro.template_ids.includes($(this).val())); });
       $('#router-create').text('Update'); $('#router-cancel').removeClass('hide'); $('#router-form-title').text('Edit Endpoint');
@@ -793,14 +665,24 @@ export function renderPanelHTML() {
       if (!path) return showMessage($('#router-msg'), 'Path is required', 'warning');
       if (!upstreams.length) return showMessage($('#router-msg'), 'At least one upstream provider is required.', 'warning');
       
-      const rt = await apiFetch(routerEditingId ? '/routers/' + routerEditingId : '/routers', { method: routerEditingId ? 'PUT' : 'POST', body: { custom_path: path, upstream_ids: upstreams, template_ids: tmpls, ecs_enabled: ecs } });
-      if (rt.ok) { showMessage($('#router-msg'), 'Saved successfully!', 'success'); resetRouterForm(); loadAllData(); } else showMessage($('#router-msg'), rt.json?.error || 'Err', 'danger');
+      const payload = { custom_path: path, upstream_ids: upstreams, template_ids: tmpls, ecs_enabled: ecs, updated_at: routerEditingUpdatedAt };
+      const rt = await apiFetch(routerEditingId ? '/routers/' + encodeURIComponent(routerEditingId) : '/routers', { method: routerEditingId ? 'PUT' : 'POST', body: payload });
+      if (handleConflict(rt, $('#router-msg'))) return;
+      if (rt.ok) { showMessage($('#router-msg'), 'Saved successfully!', 'success'); loadAllData(); } else showMessage($('#router-msg'), rt.json?.error || 'Err', 'danger');
     });
 
-    $('#router-cancel').on('click', resetRouterForm);
-    function resetRouterForm() { routerEditingId = null; $('#router-path').val(''); $('#router-ecs').prop('checked', false); $('#router-upstreams, #router-templates').val([]); $('#router-create').text('Create Endpoint'); $('#router-cancel').addClass('hide'); $('#router-form-title').text('Create Endpoint'); clearMessage($('#router-msg')); }
+    $('#router-cancel').on('click', () => resetRouterForm(true));
 
-    // لود داینامیک و رندر داشبورد Overview در تب اصلی پنل بدون فشار اضافی به دیتابیس KV
+    function populateUpstreams(providers) {
+       const $u = $('#router-upstreams').empty(), $l = $('#lookup-provider').empty();
+       providers.forEach(p => { $u.append($('<option>').val(p.id).text(p.display_name)); $l.append($('<option>').val(p.id).text(p.display_name)); });
+       $l.append($('<option>').val('custom').addClass('fw-bold text-primary').text('Custom DoH Server...'));
+    }
+    function populateTemplatesSelect(templates) {
+       const $t = $('#router-templates').empty();
+       templates.forEach(t => $t.append($('<option>').val(t.id).text(t.name)));
+    }
+
     function renderOverviewDashboard() {
        $('#stat-routers').text(allRouters.length);
        $('#stat-templates').text(allTemplates.length);
@@ -812,109 +694,82 @@ export function renderPanelHTML() {
        $('#stat-total-rules').text(totalRulesCount);
 
        const $tbody = $('#quick-router-table tbody').empty();
-       if (allRouters.length === 0) {
-          $tbody.append('<tr><td colspan="4" class="text-center text-muted py-3">No custom endpoints configured yet.</td></tr>');
-          return;
-       }
+       if (allRouters.length === 0) return $tbody.append('<tr><td colspan="4" class="text-center text-muted py-3">No custom endpoints configured yet.</td></tr>');
 
        allRouters.forEach(rt => {
           const fullDohURL = window.location.origin + rt.custom_path;
           const $tr = $('<tr>');
-          
           $tr.append($('<td>').append($('<code>').text(rt.custom_path)));
           $tr.append($('<td>').append($('<span class="user-select-all small text-muted">').text(fullDohURL)));
-          
           const ecsEnabled = !!rt.ecs_enabled;
           $tr.append($('<td>').html('<span class="' + (ecsEnabled ? 'text-success' : 'text-secondary') + ' fw-semibold small">' + (ecsEnabled ? 'Enabled' : 'Disabled') + '</span>'));
           
-          const $copyBtn = $('<button>')
-             .addClass('btn btn-sm btn-outline-primary py-0 px-2 fw-medium copy-endpoint-btn')
-             .attr('data-url', fullDohURL)
-             .text('Copy');
+          const $copyBtn = $('<button>').addClass('btn btn-sm btn-outline-primary py-0 px-2 fw-medium copy-endpoint-btn').attr('data-url', fullDohURL).text('Copy');
           $tr.append($('<td>').append($copyBtn));
           $tbody.append($tr);
        });
     }
 
-    // ۲ و ۳. مدیریت هوشمند سوئیچ تب‌ها: پنهان کردن دکمه رفرش در تب Lookup، فعال‌سازی در بقیه و اجرای خودکار لود زنده دیتا
-    $(document).on('shown.bs.tab', 'button[data-bs-toggle="tab"]', function(e) {
-       const targetId = $(e.target).data('bs-target');
-       if (targetId === '#lookup') {
-           $('#btn-refresh-dashboard, #last-updated-time').addClass('hide');
-       } else {
-           $('#btn-refresh-dashboard, #last-updated-time').removeClass('hide');
-           // همگام‌سازی خودکار دیتابیس در هنگام تغییر تب‌ها به ۵ تب وابسته اصلی
-           loadAllData();
-       }
+    $(document).on('shown.bs.tab', 'button[data-bs-toggle="tab"]', function() {
+       loadAllData();
     });
 
-    // متد تولید زمان داینامیک لود دیتابیس در نوار بالایی پنل (Navbar)
     function updateLastUpdatedTime() {
-       const now = new Date();
-       const hh = String(now.getHours()).padStart(2, '0');
-       const mm = String(now.getMinutes()).padStart(2, '0');
-       const ss = String(now.getSeconds()).padStart(2, '0');
+       const now = new Date(), hh = String(now.getHours()).padStart(2, '0'), mm = String(now.getMinutes()).padStart(2, '0'), ss = String(now.getSeconds()).padStart(2, '0');
        $('#last-updated-time').text('Last updated: ' + hh + ':' + mm + ':' + ss);
     }
 
-    // ۱. هندلر دکمه رفرش دستی منتقل شده به Navbar به همراه انیمیشن چرخش هموار و رندر یکجای کل پنل
     $(document).on('click', '#btn-refresh-dashboard', async function() {
        const $btn = $(this);
        $btn.prop('disabled', true).find('svg').addClass('spin'); 
        $btn.find('span').text('Refreshing...');
-       
        await loadAllData();
-       
        $btn.prop('disabled', false).find('svg').removeClass('spin');
        $btn.find('span').text('Refresh Data');
     });
 
-    // هندلر کپی لینک DoH با یک کلیک با استفاده از Clipboard API
     $(document).on('click', '.copy-endpoint-btn', function() {
-       const url = $(this).data('url');
-       const $btn = $(this);
+       const url = $(this).data('url'), $btn = $(this);
        navigator.clipboard.writeText(url).then(() => {
           $btn.removeClass('btn-outline-primary').addClass('btn-success').text('Copied!');
-          setTimeout(() => {
-             $btn.removeClass('btn-success').addClass('btn-outline-primary').text('Copy');
-          }, 1500);
-       }).catch(() => {
-          alert('Failed to copy. Please manually copy: ' + url);
-       });
+          setTimeout(() => { $btn.removeClass('btn-success').addClass('btn-outline-primary').text('Copy'); }, 1500);
+       }).catch(() => { alert('Failed to copy. Please manually copy: ' + url); });
     });
 
-    async function populateUpstreams(providers) {
-       const $u = $('#router-upstreams').empty(), $l = $('#lookup-provider').empty();
-       providers.forEach(p => { $u.append($('<option>').val(p.id).text(p.display_name)); $l.append($('<option>').val(p.id).text(p.display_name)); });
-       $l.append($('<option>').val('custom').addClass('fw-bold text-primary').text('Custom DoH Server...'));
-    }
-    async function populateTemplatesSelect(templates) {
-       const $t = $('#router-templates').empty();
-       templates.forEach(t => $t.append($('<option>').val(t.id).text(t.name)));
-    }
-
+    // ۱. متد اصلی دریافت داده به صورت موازی (Promise.all) جهت رفع باگ تقدم و تاخر و نمایش سریع TTL واقعی
     async function loadAllData() {
-      const pResp = await apiFetch('/providers'), tResp = await apiFetch('/templates');
-      const providers = pResp.ok ? pResp.json.providers || [] : [];
-      const templates = tResp.ok ? tResp.json.templates || [] : [];
-      
-      allProviders = providers;
-      allTemplates = templates;
-
-      await populateUpstreams(providers);
-      await populateTemplatesSelect(templates);
-      
-      // فراخوانی همزمان جداول تابعه
-      await Promise.all([
-         loadProviders(),
-         loadTemplatesTable(),
-         loadRoutersTable(),
-         loadSettings()
+      const [pResp, tResp, rResp, sResp] = await Promise.all([
+         apiFetch('/providers'),
+         apiFetch('/templates'),
+         apiFetch('/routers'),
+         apiFetch('/settings')
       ]);
+
+      allProviders = pResp.ok ? pResp.json.providers || [] : [];
+      allTemplates = tResp.ok ? tResp.json.templates || [] : [];
+      allRouters   = rResp.ok ? rResp.json.routers || [] : [];
+
+      if (sResp.ok && sResp.json?.settings) {
+         globalSettings = sResp.json.settings;
+         globalSettingsUpdatedAt = globalSettings.updated_at;
+         $('#cache-ttl-input').val(globalSettings.cache_ttl || 60);
+      }
+
+      populateUpstreams(allProviders);
+      populateTemplatesSelect(allTemplates);
       
-      // رندر نهایی داشبورد Overview پس از دریافت کل دیتای لوکال
+      renderProvidersTable();
+      renderTemplatesTable();
+      renderRoutersTable();
+      
+      // رندر کامل داشبورد Overview پس از آماده بودن تمام داده‌ها (از جمله TTL)
       renderOverviewDashboard();
-      updateLastUpdatedTime(); // آپدیت ساعت هماهنگی لایو در Navbar
+      updateLastUpdatedTime(); 
+
+      // ریست هوشمندانه فرم‌ها بدون پاک کردن بنر پیام‌های موفقیت
+      resetProvForm(false);
+      resetTemplateForm(false);
+      resetRouterForm(false);
     }
 
     function escapeHtml(s) { return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }

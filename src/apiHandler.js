@@ -172,21 +172,35 @@ export async function handleApiRequest(request, apiPath, env, auth) {
     updated.must_change = false; await env.CONFIG_KV.put('config:auth', JSON.stringify(updated)); invalidateMemCache(); return jsonResponse({ ok: true, secret_path: updated.secret_path });
   }
 
-  // --- Settings ---
+  // --- Settings (Global with Cache TTL) ---
   if (apiPath === '/settings' && (method === 'GET' || method === 'PUT')) {
       const sess = await validateSession(sessionCookie);
       if (!sess) return jsonResponse({ ok: false, error: 'Not authenticated' }, 401);
 
       if (method === 'GET') {
           const { settings } = await syncKVData(env);
-          const responseSettings = { cache_ttl: (settings && settings.cache_ttl !== undefined) ? settings.cache_ttl : 60 };
+          const responseSettings = { cache_ttl: (settings && settings.cache_ttl !== undefined) ? settings.cache_ttl : 60, updated_at: settings?.updated_at };
           return jsonResponse({ ok: true, settings: responseSettings });
       }
       if (method === 'PUT') {
-          const body = await safeJson(request);
+          const body = await safeJson(request) || {};
           const ttl = parseInt(body?.cache_ttl, 10);
           if (isNaN(ttl) || ttl < 1 || ttl > 86400) return jsonResponse({ ok: false, error: 'Invalid cache_ttl value (1-86400 seconds)' }, 400);
-          await env.CONFIG_KV.put('config:settings', JSON.stringify({ cache_ttl: ttl }));
+          
+          const { settings } = await syncKVData(env);
+          const currentSettings = settings || {};
+          
+          // مدیریت خطای هم‌زمانی در تنظیمات با کد 409
+          if (currentSettings.updated_at && body.updated_at !== currentSettings.updated_at) {
+              return jsonResponse({ ok: false, error: 'Data was modified or deleted by another session. Please refresh.' }, 409);
+          }
+          if (currentSettings.cache_ttl === ttl) {
+              return jsonResponse({ ok: true }); 
+          }
+          
+          currentSettings.cache_ttl = ttl;
+          currentSettings.updated_at = Date.now();
+          await env.CONFIG_KV.put('config:settings', JSON.stringify(currentSettings));
           invalidateMemCache();
           return jsonResponse({ ok: true });
       }
@@ -216,65 +230,33 @@ export async function handleApiRequest(request, apiPath, env, auth) {
 
       try {
          let binaryReqPayload = buildDnsQueryBufferForLookup(body.domain, body.type);
-         
          if (body.ecs_enabled) {
              const clientIp = request.headers.get('CF-Connecting-IP');
-             if (clientIp) {
-                 binaryReqPayload = addEcsToDnsQuery(binaryReqPayload, clientIp);
-             }
+             if (clientIp) binaryReqPayload = addEcsToDnsQuery(binaryReqPayload, clientIp);
          }
-
          const start = Date.now();
-         const lookupRespCall = await fetch(targetUrl, { 
-             method: 'POST', 
-             headers: { 'Content-Type': 'application/dns-message', 'Accept': 'application/dns-message' },
-             body: binaryReqPayload
-         });
+         const lookupRespCall = await fetch(targetUrl, { method: 'POST', headers: { 'Content-Type': 'application/dns-message', 'Accept': 'application/dns-message' }, body: binaryReqPayload });
          const latency_ms = Date.now() - start;
          
-         if (!lookupRespCall.ok) {
-             return jsonResponse({ ok: false, error: 'Upstream DoH server failed to respond or is invalid.', latency_ms }, 200, {
-                 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
-             });
-         }
+         if (!lookupRespCall.ok) return jsonResponse({ ok: false, error: 'Upstream DoH server failed to respond or is invalid.', latency_ms }, 200, { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate' });
 
          const receivedBinaryObjAns = await lookupRespCall.arrayBuffer();
          let formattedExtData;
-         try {
-             formattedExtData = parseDnsMessageToLookupJSON(receivedBinaryObjAns);
-         } catch(pe) {
-             return jsonResponse({ ok: false, error: 'Upstream DoH server failed to respond or is invalid.', latency_ms }, 200, {
-                 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
-             });
+         try { formattedExtData = parseDnsMessageToLookupJSON(receivedBinaryObjAns); } catch(pe) {
+             return jsonResponse({ ok: false, error: 'Upstream DoH server failed to respond or is invalid.', latency_ms }, 200, { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate' });
          }
 
-         if (formattedExtData.status === 3) {
-             return jsonResponse({ ok: false, error: 'Domain not found (NXDOMAIN).', latency_ms }, 200, {
-                 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
-             });
-         }
+         if (formattedExtData.status === 3) return jsonResponse({ ok: false, error: 'Domain not found (NXDOMAIN).', latency_ms }, 200, { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate' });
          
-         const syntheticJSWrapped = { 
-             Status: formattedExtData.status, 
-             Answer: formattedExtData.answers 
-         };
-
-         return jsonResponse({ ok: true, latency_ms, response: syntheticJSWrapped }, 200, {
-             'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
-         });
-         
-      } catch (err) {
-         return jsonResponse({ ok: false, error: 'Upstream DoH server failed to respond or is invalid.' }, 200, {
-             'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
-         });
-      }
+         const syntheticJSWrapped = { Status: formattedExtData.status, Answer: formattedExtData.answers };
+         return jsonResponse({ ok: true, latency_ms, response: syntheticJSWrapped }, 200, { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate' });
+      } catch (err) { return jsonResponse({ ok: false, error: 'Upstream DoH server failed to respond or is invalid.' }, 200, { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate' }); }
   }
 
-  // --- Providers with Live test validation ---
+  // --- Providers ---
   if (apiPath === '/providers' && method === 'GET') {
     if (!await validateSession(sessionCookie)) return jsonResponse({ ok: false }, 401);
-    const { providers } = await syncKVData(env); 
-    return jsonResponse({ ok: true, providers });
+    const { providers } = await syncKVData(env); return jsonResponse({ ok: true, providers });
   }
   if (apiPath === '/providers' && method === 'POST') {
     if (!await validateSession(sessionCookie)) return jsonResponse({ ok: false }, 401);
@@ -283,20 +265,15 @@ export async function handleApiRequest(request, apiPath, env, auth) {
     
     let url = String(body.url).trim();
     if (!url.startsWith('https://')) return jsonResponse({ ok: false, error: 'DoH Server URL must start with https://' }, 400);
-    
-    if (!body.force) {
-        const isAlive = await testDohProvider(url);
-        if (!isAlive) return jsonResponse({ ok: false, error: 'live_test_failed', msg: 'Live connection to DoH failed.' }, 200);
-    }
+    if (!body.force) { const isAlive = await testDohProvider(url); if (!isAlive) return jsonResponse({ ok: false, error: 'live_test_failed', msg: 'Live connection to DoH failed.' }, 200); }
 
     let providers = JSON.parse(await env.CONFIG_KV.get('config:providers') || '[]');
     if (providers.some(p => p.url === url)) return jsonResponse({ ok: false, error: 'Duplicate URL' }, 400);
     
-    const entry = { id: generateNumericId10(), display_name: body.display_name, url: url }; 
+    const entry = { id: generateNumericId10(), display_name: body.display_name, url: url, updated_at: Date.now() }; 
     providers.push(entry); 
     await env.CONFIG_KV.put('config:providers', JSON.stringify(providers)); 
-    invalidateMemCache(); 
-    return jsonResponse({ ok: true, provider: entry }, 201);
+    invalidateMemCache(); return jsonResponse({ ok: true, provider: entry }, 201);
   }
   
   if (apiPath.startsWith('/providers/') && ['DELETE', 'PUT'].includes(method)) {
@@ -304,29 +281,30 @@ export async function handleApiRequest(request, apiPath, env, auth) {
     const id = decodeURIComponent(apiPath.split('/')[2]); 
     let providers = JSON.parse(await env.CONFIG_KV.get('config:providers') || '[]'); 
     const idx = providers.findIndex(p => p.id === id); 
-    if (idx === -1) return jsonResponse({ ok: false, error: 'Not found' }, 404);
     
+    // اگر آیتم قبلاً حذف شده بود، ارور 409 برگردانده می‌شود تا فرانت‌لوپ رفرش را اعمال کند
+    if (idx === -1) return jsonResponse({ ok: false, error: 'Data was modified or deleted by another session. Please refresh.' }, 409);
+    
+    const body = await safeJson(request) || {};
+
     if (method === 'DELETE') { 
+      if (providers[idx].updated_at && body.updated_at !== providers[idx].updated_at) return jsonResponse({ ok: false, error: 'Data was modified or deleted by another session. Please refresh.' }, 409);
       providers.splice(idx, 1); 
       await env.CONFIG_KV.put('config:providers', JSON.stringify(providers)); 
-      invalidateMemCache(); 
-      return jsonResponse({ ok: true }); 
+      invalidateMemCache(); return jsonResponse({ ok: true }); 
     } else { 
-      const body = await safeJson(request); 
       if (!body?.display_name || !body?.url) return jsonResponse({ ok: false, error: 'Missing display name or url' }, 400);
-      
       let url = String(body.url).trim();
       if (!url.startsWith('https://')) return jsonResponse({ ok: false, error: 'DoH Server URL must start with https://' }, 400);
       
-      if (!body.force) {
-          const isAlive = await testDohProvider(url);
-          if (!isAlive) return jsonResponse({ ok: false, error: 'live_test_failed', msg: 'Live connection to DoH failed.' }, 200);
-      }
+      if (providers[idx].updated_at && body.updated_at !== providers[idx].updated_at) return jsonResponse({ ok: false, error: 'Data was modified or deleted by another session. Please refresh.' }, 409);
+      if (providers[idx].display_name === body.display_name && providers[idx].url === url) return jsonResponse({ ok: true, provider: providers[idx] });
 
-      providers[idx] = { ...providers[idx], display_name: body.display_name, url: url, updatedAt: Date.now() }; 
+      if (!body.force) { const isAlive = await testDohProvider(url); if (!isAlive) return jsonResponse({ ok: false, error: 'live_test_failed', msg: 'Live connection to DoH failed.' }, 200); }
+
+      providers[idx] = { ...providers[idx], display_name: body.display_name, url: url, updated_at: Date.now() }; 
       await env.CONFIG_KV.put('config:providers', JSON.stringify(providers)); 
-      invalidateMemCache(); 
-      return jsonResponse({ ok: true, provider: providers[idx] }); 
+      invalidateMemCache(); return jsonResponse({ ok: true, provider: providers[idx] }); 
     }
   }
 
@@ -363,19 +341,15 @@ export async function handleApiRequest(request, apiPath, env, auth) {
   /* ---- Templates ---- */
   if (apiPath === '/templates' && method === 'GET') {
     if (!await validateSession(sessionCookie)) return jsonResponse({ ok: false }, 401);
-    const { templates } = await syncKVData(env); 
-    return jsonResponse({ ok: true, templates });
+    const { templates } = await syncKVData(env); return jsonResponse({ ok: true, templates });
   }
   if (apiPath === '/templates' && method === 'POST') {
      if (!await validateSession(sessionCookie)) return jsonResponse({ ok: false }, 401);
      try {
        let templates = JSON.parse(await env.CONFIG_KV.get('config:templates') || '[]');
        const ruleReady = await processTemplateRulesBody(await safeJson(request), null, templates);
-       const tEn = { id: generateNumericId10(), name: (await safeJson(request)).name, rules: ruleReady, createdAt: Date.now() }; 
-       templates.push(tEn);
-       await env.CONFIG_KV.put('config:templates', JSON.stringify(templates)); 
-       invalidateMemCache(); 
-       return jsonResponse({ ok: true, template: tEn }, 201);
+       const tEn = { id: generateNumericId10(), name: (await safeJson(request)).name, rules: ruleReady, updated_at: Date.now(), createdAt: Date.now() }; 
+       templates.push(tEn); await env.CONFIG_KV.put('config:templates', JSON.stringify(templates)); invalidateMemCache(); return jsonResponse({ ok: true, template: tEn }, 201);
      } catch (e) { return jsonResponse({ ok: false, error: e.message }, 400); }
   }
   if (apiPath.startsWith('/templates/') && ['DELETE', 'PUT'].includes(method)) {
@@ -383,20 +357,21 @@ export async function handleApiRequest(request, apiPath, env, auth) {
      const id = decodeURIComponent(apiPath.split('/')[2]); 
      let templates = JSON.parse(await env.CONFIG_KV.get('config:templates') || '[]'); 
      const idx = templates.findIndex(t => t.id === id); 
-     if (idx === -1) return jsonResponse({ ok: false, error: 'Template not found' }, 404);
      
+     if (idx === -1) return jsonResponse({ ok: false, error: 'Data was modified or deleted by another session. Please refresh.' }, 409);
+     
+     const body = await safeJson(request) || {};
+     if (templates[idx].updated_at && body.updated_at !== templates[idx].updated_at) return jsonResponse({ ok: false, error: 'Data was modified or deleted by another session. Please refresh.' }, 409);
+
      if (method === 'DELETE') { 
-       templates.splice(idx, 1); 
-       await env.CONFIG_KV.put('config:templates', JSON.stringify(templates)); 
-       invalidateMemCache(); 
-       return jsonResponse({ ok: true }); 
+       templates.splice(idx, 1); await env.CONFIG_KV.put('config:templates', JSON.stringify(templates)); invalidateMemCache(); return jsonResponse({ ok: true }); 
      } else { 
        try { 
-         const ruleReady = await processTemplateRulesBody(await safeJson(request), id, templates); 
-         templates[idx] = { ...templates[idx], name: (await safeJson(request)).name, rules: ruleReady, updatedAt: Date.now() }; 
-         await env.CONFIG_KV.put('config:templates', JSON.stringify(templates)); 
-         invalidateMemCache(); 
-         return jsonResponse({ ok: true, template: templates[idx] }); 
+         const ruleReady = await processTemplateRulesBody(body, id, templates); 
+         if (templates[idx].name === body.name && JSON.stringify(templates[idx].rules) === JSON.stringify(ruleReady)) return jsonResponse({ ok: true, template: templates[idx] });
+         
+         templates[idx] = { ...templates[idx], name: body.name, rules: ruleReady, updated_at: Date.now() }; 
+         await env.CONFIG_KV.put('config:templates', JSON.stringify(templates)); invalidateMemCache(); return jsonResponse({ ok: true, template: templates[idx] }); 
        } catch (e) { return jsonResponse({ ok: false, error: e.message }, 400); } 
      }
   }
@@ -404,43 +379,32 @@ export async function handleApiRequest(request, apiPath, env, auth) {
   /* --- Routers --- */
   if (apiPath === '/routers' && method === 'GET') {
      if (!await validateSession(sessionCookie)) return jsonResponse({ ok: false }, 401);
-     const { routers } = await syncKVData(env); 
-     return jsonResponse({ ok: true, routers });
+     const { routers } = await syncKVData(env); return jsonResponse({ ok: true, routers });
   }
   if (apiPath === '/routers' && method === 'POST') {
-     if (!await validateSession(sessionCookie)) return jsonResponse({ ok: false }, 401); 
-     const body = await safeJson(request); 
+     if (!await validateSession(sessionCookie)) return jsonResponse({ ok: false }, 401); const body = await safeJson(request); 
      if (!body?.custom_path || !Array.isArray(body?.upstream_ids) || body.upstream_ids.length === 0) return jsonResponse({ ok: false, error: 'Missing path or upstreams' }, 400);
-     
-     const { routers } = await syncKVData(env); 
-     const p_n = normalizePathServer(String(body.custom_path)); 
+     const { routers } = await syncKVData(env); const p_n = normalizePathServer(String(body.custom_path)); 
      if (routers.find(r => normalizePathServer(r.custom_path) === p_n)) return jsonResponse({ ok: false, error: 'Path used' }, 400);
-     
-     const nr = { id: generateNumericId10(), custom_path: p_n, upstream_ids: body.upstream_ids.map(String), template_ids: Array.isArray(body.template_ids) ? body.template_ids : [], ecs_enabled: !!body.ecs_enabled, createdAt: Date.now() }; 
-     
-     routers.push(nr); 
-     await env.CONFIG_KV.put('config:routers', JSON.stringify(routers)); 
-     invalidateMemCache(); 
-     return jsonResponse({ ok: true, router: nr }, 201);
+     const nr = { id: generateNumericId10(), custom_path: p_n, upstream_ids: body.upstream_ids.map(String), template_ids: Array.isArray(body.template_ids) ? body.template_ids : [], ecs_enabled: !!body.ecs_enabled, updated_at: Date.now(), createdAt: Date.now() }; 
+     routers.push(nr); await env.CONFIG_KV.put('config:routers', JSON.stringify(routers)); invalidateMemCache(); return jsonResponse({ ok: true, router: nr }, 201);
   }
   if (apiPath.startsWith('/routers/') && ['DELETE', 'PUT'].includes(method)) {
-     if (!await validateSession(sessionCookie)) return jsonResponse({ ok: false }, 401); 
-     const id = decodeURIComponent(apiPath.split('/')[2]); 
-     const { routers } = await syncKVData(env); 
-     const idx = routers.findIndex(r => r.id === id); 
-     if (idx === -1) return jsonResponse({ ok: false, error: 'Router not found' }, 404);
+     if (!await validateSession(sessionCookie)) return jsonResponse({ ok: false }, 401); const id = decodeURIComponent(apiPath.split('/')[2]); const { routers } = await syncKVData(env); const idx = routers.findIndex(r => r.id === id); 
      
+     if (idx === -1) return jsonResponse({ ok: false, error: 'Data was modified or deleted by another session. Please refresh.' }, 409);
+     
+     const body = await safeJson(request) || {};
+     if (routers[idx].updated_at && body.updated_at !== routers[idx].updated_at) return jsonResponse({ ok: false, error: 'Data was modified or deleted by another session. Please refresh.' }, 409);
+
      if (method === 'DELETE') { 
-        routers.splice(idx, 1); 
-        await env.CONFIG_KV.put('config:routers', JSON.stringify(routers)); 
-        invalidateMemCache(); 
-        return jsonResponse({ ok: true }); 
+        routers.splice(idx, 1); await env.CONFIG_KV.put('config:routers', JSON.stringify(routers)); invalidateMemCache(); return jsonResponse({ ok: true }); 
      } else { 
-        const b = await safeJson(request), p_n = normalizePathServer(String(b.custom_path)); 
-        routers[idx] = { ...routers[idx], custom_path: p_n, upstream_ids: b.upstream_ids.map(String), template_ids: b.template_ids, ecs_enabled: !!b.ecs_enabled }; 
-        await env.CONFIG_KV.put('config:routers', JSON.stringify(routers)); 
-        invalidateMemCache(); 
-        return jsonResponse({ ok: true, router: routers[idx] }); 
+        const p_n = normalizePathServer(String(body.custom_path)), uIds = body.upstream_ids.map(String), tIds = body.template_ids, ecsE = !!body.ecs_enabled; 
+        if (routers[idx].custom_path === p_n && routers[idx].ecs_enabled === ecsE && JSON.stringify(routers[idx].upstream_ids) === JSON.stringify(uIds) && JSON.stringify(routers[idx].template_ids) === JSON.stringify(tIds)) return jsonResponse({ ok: true, router: routers[idx] });
+
+        routers[idx] = { ...routers[idx], custom_path: p_n, upstream_ids: uIds, template_ids: tIds, ecs_enabled: ecsE, updated_at: Date.now() }; 
+        await env.CONFIG_KV.put('config:routers', JSON.stringify(routers)); invalidateMemCache(); return jsonResponse({ ok: true, router: routers[idx] }); 
      }
   }
 

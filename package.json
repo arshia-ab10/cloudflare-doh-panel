@@ -9,6 +9,6 @@
     "format": "prettier --write '**/*.js'"
   },
   "devDependencies": {
-    "wrangler": "^4.114.0"
+    "wrangler": "latest"
   }
 }

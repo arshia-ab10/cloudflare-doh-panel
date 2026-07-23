@@ -1,5 +1,6 @@
 node_modules/
 .wrangler/
 .env
+package-lock.json
 .dev.vars
 dist/

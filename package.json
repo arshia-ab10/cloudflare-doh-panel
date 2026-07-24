@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-doh-panel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cloudflare Worker DoH Proxy with Camouflage & Caching",
   "main": "src/index.js",
   "bin": {

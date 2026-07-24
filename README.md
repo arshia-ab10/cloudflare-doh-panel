@@ -14,29 +14,84 @@ A powerful, highly customizable, and stealthy **DNS over HTTPS (DoH) Proxy** bui
 
 ### ✨ Features
 
-*   **Built-in Management Panel:** A beautiful, responsive dashboard (Bootstrap-based) to manage your entire DoH infrastructure.
-*   **Custom Endpoints (Routers):** Create multiple custom DoH paths (e.g., `/my-dns/`) and assign specific upstream providers and rules to each.
-*   **Advanced DNS Rewriting:** 
-    *   Support for `A`, `AAAA`, and `CNAME` records.
-    *   **Wildcard Support:** Match exact domains or use wildcards (`*.example.com`).
-    *   **CNAME Flattening:** Resolve CNAMEs at the edge and return raw IPs to the client to save round-trips.
-*   **Upstream Failover:** Define multiple upstream DoH providers (e.g., Cloudflare, Google). If one fails, the proxy automatically cascades to the next.
-*   **EDNS Client Subnet (ECS):** Optionally forward the client's IP to upstream servers for geo-optimized DNS responses.
-*   **High Performance:** Utilizes Cloudflare's Cache API and a custom In-Memory Cache to reduce KV reads by 90% and deliver ultra-low latency.
-*   **Stealth & Camouflage:** Unauthorized requests or probes to the worker's root are seamlessly proxied to `ubuntu.com`, hiding the true nature of your DoH server.
-*   **Live DNS Inspector:** A built-in tool to test DNS resolution and latency directly from the Cloudflare Edge.
+* **Built-in Management Panel:** A beautiful, responsive dashboard (Bootstrap-based) to manage your entire DoH infrastructure.
+* **Custom Endpoints (Routers):** Create multiple custom DoH paths (e.g., `/my-dns/`) and assign specific upstream providers and rules to each.
+* **Advanced DNS Rewriting:** 
+  * Support for `A`, `AAAA`, and `CNAME` records.
+  * **Wildcard Support:** Match exact domains or use wildcards (`*.example.com`).
+  * **CNAME Flattening:** Resolve CNAMEs at the edge and return raw IPs to the client to save round-trips.
+* **Upstream Failover:** Define multiple upstream DoH providers (e.g., Cloudflare, Google). If one fails, the proxy automatically cascades to the next.
+* **EDNS Client Subnet (ECS):** Optionally forward the client's IP to upstream servers for geo-optimized DNS responses.
+* **High Performance:** Utilizes Cloudflare's Cache API and a custom In-Memory Cache to reduce KV reads by 90% and deliver ultra-low latency.
+* **Stealth & Camouflage:** Unauthorized requests or probes to the worker's root are seamlessly proxied to `ubuntu.com`, hiding the true nature of your DoH server.
+* **Live DNS Inspector:** A built-in tool to test DNS resolution and latency directly from the Cloudflare Edge.
 
-### 🚀 Installation
+---
 
-1. Create a new Cloudflare Worker.
-2. Create a Cloudflare KV Namespace (e.g., `DOH_CONFIG_KV`).
-3. Bind the KV Namespace to your worker with the variable name `CONFIG_KV`.
-4. Copy the contents of the project files (`index.js`, `utils.js`, `dnsHandler.js`, `apiHandler.js`, `panel.js`) into your worker (or deploy via Wrangler).
-5. Visit your worker's URL. On the **first boot**, the system will generate a secure master password and a secret admin path.
-6. Save these credentials! You will be redirected to your secure panel.
+### 🚀 Deployment Methods
 
-### 🔒 Security
-The admin panel is protected by a randomly generated **Secret Path** (e.g., `https://your-worker.workers.dev/aB3dE/panel/`) and a hashed master password. You can change these at any time from the dashboard.
+Choose the method that suits you best:
+
+#### Method 1: One-Click Deploy (Fastest & Easiest)
+Deploy directly from your browser in less than a minute. Cloudflare will automatically fork the repository, create the KV database, and deploy the worker.
+
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/arshia-ab10/cloudflare-doh-panel)
+
+---
+
+#### Method 2: NPM CLI Auto-Installer (Recommended for Terminal Users)
+Run a single command in your terminal. The wizard will handle authentication, KV creation, configuration, and deployment automatically.
+
+```bash
+# For English UI during setup:
+npx cloudflare-doh-panel en
+
+# For Persian UI during setup:
+npx cloudflare-doh-panel fa
+```
+
+---
+
+#### Method 3: Manual Deployment (For Developers)
+If you want full control over the code and deployment process:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/arshia-ab10/cloudflare-doh-panel.git
+   cd cloudflare-doh-panel
+   ```
+
+2. Log in to Cloudflare CLI:
+   ```bash
+   npx wrangler login
+   ```
+
+3. Create the KV Namespace:
+   ```bash
+   npx wrangler kv:namespace create "CONFIG_KV"
+   ```
+
+4. Copy the generated KV `id` into `wrangler.toml`:
+   ```toml
+   [[kv_namespaces]]
+   binding = "CONFIG_KV"
+   id = "YOUR_GENERATED_KV_ID_HERE"
+   ```
+
+5. Deploy to Cloudflare Workers:
+   ```bash
+   npx wrangler deploy
+   ```
+
+---
+
+### 🔒 Security & First Boot
+
+On your **first boot**, visit your worker's root URL. The system will automatically generate:
+* A randomized **Secret Path** (e.g., `https://your-worker.workers.dev/aB3dE/panel/`)
+* A secure master password.
+
+Save these credentials! You will be required to change them upon your first login.
 
 ---
 
@@ -48,28 +103,83 @@ The admin panel is protected by a randomly generated **Secret Path** (e.g., `htt
 
 ### ✨ ویژگی‌ها و قابلیت‌ها
 
-*   **پنل مدیریت داخلی:** یک داشبورد زیبا و واکنش‌گرا (بر پایه Bootstrap) برای مدیریت کل زیرساخت DoH شما.
-*   **مسیرهای سفارشی (Routers):** ایجاد چندین مسیر DoH دلخواه (مثلاً `/my-dns/`) و اختصاص سرورهای بالادستی و قوانین خاص به هر کدام.
-*   **بازنویسی پیشرفته DNS:**
-    *   پشتیبانی از رکوردهای `A`، `AAAA` و `CNAME`.
-    *   **پشتیبانی از Wildcard:** اعمال قوانین روی دامنه‌های دقیق یا به صورت وایلدکارد (`example.com.*`).
-    *   **قابلیت CNAME Flattening:** حل کردن رکوردهای CNAME در سرور و ارسال مستقیم IP به کاربر برای افزایش سرعت.
-*   **پشتیبانی از Failover:** تعریف چندین ارائه‌دهنده DoH بالادستی (مثل گوگل، کلودفلر). در صورت قطعی یکی، سیستم به طور خودکار به سرور بعدی سوئیچ می‌کند.
-*   **پشتیبانی از ECS (EDNS Client Subnet):** امکان ارسال IP کاربر به سرورهای بالادستی برای دریافت پاسخ‌های DNS بهینه‌شده بر اساس موقعیت جغرافیایی.
-*   **عملکرد فوق‌العاده:** استفاده از Cache API کلودفلر و یک In-Memory Cache اختصاصی برای کاهش ۹۰ درصدی درخواست‌ها به دیتابیس KV و ارائه کمترین تاخیر ممکن.
-*   **استتار و مخفی‌سازی (Camouflage):** درخواست‌های نامعتبر یا ربات‌هایی که به روت ورکر شما متصل می‌شوند، به صورت خودکار به سایت `ubuntu.com` پروکسی می‌شوند تا ماهیت اصلی سرور شما مخفی بماند.
-*   **ابزار تست زنده DNS:** ابزاری داخلی برای تست و بررسی پاسخ‌های DNS و میزان تاخیر مستقیماً از سرورهای کلودفلر.
+* **پنل مدیریت داخلی:** یک داشبورد زیبا و واکنش‌گرا (بر پایه Bootstrap) برای مدیریت کل زیرساخت DoH شما.
+* **مسیرهای سفارشی (Routers):** ایجاد چندین مسیر DoH دلخواه (مثلاً `/my-dns/`) و اختصاص سرورهای بالادستی و قوانین خاص به هر کدام.
+* **بازنویسی پیشرفته DNS:**
+  * پشتیبانی از رکوردهای `A`، `AAAA` و `CNAME`.
+  * **پشتیبانی از Wildcard:** اعمال قوانین روی دامنه‌های دقیق یا به صورت وایلدکارد (`*.example.com`).
+  * **قابلیت CNAME Flattening:** حل کردن رکوردهای CNAME در سرور و ارسال مستقیم IP به کاربر برای افزایش سرعت.
+* **پشتیبانی از Failover:** تعریف چندین ارائه‌دهنده DoH بالادستی (مثل گوگل، کلودفلر). در صورت قطعی یکی، سیستم به طور خودکار به سرور بعدی سوئیچ می‌کند.
+* **پشتیبانی از ECS (EDNS Client Subnet):** امکان ارسال IP کاربر به سرورهای بالادستی برای دریافت پاسخ‌های DNS بهینه‌شده بر اساس موقعیت جغرافیایی.
+* **عملکرد فوق‌العاده:** استفاده از Cache API کلودفلر و یک In-Memory Cache اختصاصی برای کاهش ۹۰ درصدی درخواست‌ها به دیتابیس KV و ارائه کمترین تاخیر ممکن.
+* **استتار و مخفی‌سازی (Camouflage):** درخواست‌های نامعتبر یا ربات‌هایی که به روت ورکر شما متصل می‌شوند، به صورت خودکار به سایت `ubuntu.com` پروکسی می‌شوند تا ماهیت اصلی سرور شما مخفی بماند.
+* **ابزار تست زنده DNS:** ابزاری داخلی برای تست و بررسی پاسخ‌های DNS و میزان تاخیر مستقیماً از سرورهای کلودفلر.
 
-### 🚀 آموزش نصب
+---
 
-۱. یک Worker جدید در کلودفلر ایجاد کنید.
-۲. یک فضای Cloudflare KV (مثلاً با نام `DOH_CONFIG_KV`) بسازید.
-۳. این KV را با نام متغیر `CONFIG_KV` به ورکر خود متصل (Bind) کنید.
-۴. کدهای پروژه را در ورکر خود قرار دهید (یا از طریق Wrangler دیپلوی کنید).
-۵. آدرس ورکر خود را در مرورگر باز کنید. در **اولین اجرا (First Boot)**، سیستم یک رمز عبور قدرتمند و یک مسیر مخفی برای پنل ادمین تولید می‌کند.
-۶. این اطلاعات را حتماً ذخیره کنید! پس از آن به پنل امن خود هدایت خواهید شد.
+### 🚀 روش‌های نصب و استقرار
 
-### 🔒 امنیت
-پنل مدیریت توسط یک **مسیر مخفی** تصادفی (مثلاً `https://your-worker.workers.dev/aB3dE/panel/`) و یک رمز عبور هش‌شده محافظت می‌شود. شما می‌توانید این اطلاعات را در هر زمان از داخل داشبورد تغییر دهید.
+روش مورد نظر خود را انتخاب کنید:
+
+#### روش ۱: نصب با یک کلیک (سریع‌ترین و ساده‌ترین)
+مستقیماً از مرورگر و بدون نیاز به ترمینال در کمتر از یک دقیقه پروژه را نصب کنید. کلودفلر به صورت خودکار دیتابیس KV را ساخته و پروژه را دیپلوی می‌کند.
+
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/arshia-ab10/cloudflare-doh-panel)
+
+---
+
+#### روش ۲: نصب خودکار از طریق ترمینال (پیشنهاد شده با NPM)
+کافیست یک دستور را در ترمینال اجرا کنید. اسکریپت به صورت خودکار احراز هویت، ساخت KV، تنظیمات و دیپلوی را انجام می‌دهد.
+
+```bash
+# نصب با منوی فارسی:
+npx cloudflare-doh-panel fa
+
+# نصب با منوی انگلیسی:
+npx cloudflare-doh-panel en
+```
+
+---
+
+#### روش ۳: نصب دستی (برای توسعه‌دهندگان)
+اگر می‌خواهید دسترسی کامل به کدها داشته باشید و مراحل را دستی طی کنید:
+
+۱. کلون کردن پروژه از گیت‌هاب:
+   ```bash
+   git clone https://github.com/arshia-ab10/cloudflare-doh-panel.git
+   cd cloudflare-doh-panel
+   ```
+
+۲. ورود به اکانت کلودفلر:
+   ```bash
+   npx wrangler login
+   ```
+
+۳. ساخت دیتابیس KV:
+   ```bash
+   npx wrangler kv:namespace create "CONFIG_KV"
+   ```
+
+۴. قرار دادن `id` ساخته شده در فایل `wrangler.toml`:
+   ```toml
+   [[kv_namespaces]]
+   binding = "CONFIG_KV"
+   id = "شناسه_KV_ساخته_شده"
+   ```
+
+۵. دیپلوی روی کلودفلر:
+   ```bash
+   npx wrangler deploy
+   ```
+
+---
+
+### 🔒 امنیت و اولین اجرا
+
+در **اولین اجرا**، آدرس اصلی ورکر خود را باز کنید. سیستم به صورت خودکار موارد زیر را تولید می‌کند:
+* یک **مسیر مخفی** (مثلاً `https://your-worker.workers.dev/aB3dE/panel/`)
+* یک رمز عبور اولیه.
+
+این اطلاعات را ذخیره کنید! در اولین ورود ملزم به تغییر رمز عبور خواهید بود.
 
 </div>

@@ -1,8 +1,11 @@
 {
-  "name": "doh-proxy-camouflaged",
+  "name": "cloudflare-doh-panel",
   "version": "1.0.0",
   "description": "Cloudflare Worker DoH Proxy with Camouflage & Caching",
   "main": "src/index.js",
+  "bin": {
+    "cloudflare-doh-panel": "bin/cli.js"
+  },
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",

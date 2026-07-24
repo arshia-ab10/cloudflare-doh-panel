@@ -1,6 +1,7 @@
-node_modules/
+.git/
+.vscode/
 .wrangler/
-.env
+node_modules/
+.gitignore
+.npmignore
 package-lock.json
-.dev.vars
-dist/
